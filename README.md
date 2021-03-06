@@ -52,6 +52,6 @@ https://hub.docker.com/repository/docker/doganm95/freenet_funk-rest-api-server
 `docker build -t doganm95/freenet_funk-rest-api-server -f ./docker/Dockerfile .`
 
 ### Run the image: 
-`docker run -p 5000:5000 -e "FUNK_USERNAME=<your_username>" -e "FUNK_PASSWORD=<your_password>" doganm95/freenet_funk-rest-api-server`  
+`docker run -p <port>:5000 -e "FUNK_USERNAME=<your_username>" -e "FUNK_PASSWORD=<your_password>" doganm95/freenet_funk-rest-api-server`  
 
-Note: replace `<your_username>` and `<your_password>` with your credentials
+Note: replace `<your_username>` and `<your_password>` with your credentials and `<port>` with your desired port
