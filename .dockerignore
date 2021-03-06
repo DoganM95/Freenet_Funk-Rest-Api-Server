@@ -1,0 +1,9 @@
+.git
+.gitignore
+.vscode
+LICENSE
+README.md
+
+# personal data
+configuration/credentials.py
+configuration/__pycache__
