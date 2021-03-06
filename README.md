@@ -37,7 +37,7 @@
     - `pause`: pauses your plan beginning tomorrow  
     - `undo`: cancels your current plan (for details, [see here](https://github.com/lagmoellertim/freenet-funk-api))  
 
->each of these resond with an object containing information of wether or not the action was successful and what your current plan is afterwards.
+>each of these resond with an object containing information of whether or not the action was successful and what your current plan is afterwards.
 
 <br/>  
 
