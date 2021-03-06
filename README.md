@@ -13,7 +13,7 @@
 `GET`-request to the server with the following body as a full example
 ```
 {
-    "retrieve": data
+    "retrieve": "data"
 }
 ```
 `retrieve` can have one of the following values:  
