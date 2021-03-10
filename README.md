@@ -9,7 +9,7 @@
 
 - ### As a docker container  
     - #### Using pre-built image fron docker hub:
-    [See documentation on docker hub](https://hub.docker.com/repository/docker/doganm95/freenet_funk-rest-api-server)
+      [See documentation on docker hub](https://hub.docker.com/repository/docker/doganm95/freenet_funk-rest-api-server)
 
     - #### Building it locally (clone repository first):
     1. `git clone https://github.com/DoganM95/Freenet_Funk-rest-api-server`  
