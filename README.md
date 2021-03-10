@@ -1,4 +1,4 @@
-### Runs a flask server (python) which accepts http requests and sends corresponding commands to freenet Funk servers to get your data from their servers or order a specific cell phone tariff using [this freenet Funk API](https://github.com/lagmoellertim/freenet-funk-api).
+### Runs a flask server (python) which accepts http requests and sends corresponding commands to freenet Funk servers to get your data from their servers or order a specific cell phone tariff using [this freenet Funk API](https://github.com/lagmoellertim/freenet-funk-api)
 
 ## Setup
 
