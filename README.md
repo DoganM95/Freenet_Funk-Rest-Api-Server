@@ -21,7 +21,7 @@
     2. Open a terminal session in the cloned folder  
     3. Build the docker image using the cloned files:  
    `docker build -t doganm95/freenet_funk-rest-api-server -f ./docker/Dockerfile .`  
-    1. Run the image as a container:  
+    4. Run the image as a container:  
    `docker run -p <port>:5000 -e "FUNK_USERNAME=<your_username>" -e "FUNK_PASSWORD=<your_password>" doganm95/freenet_funk-rest-api-server`  
        >Replace `<your_username>` and `<your_password>` with your credentials and `<port>` with your desired port
 
