@@ -2,7 +2,7 @@
 
 ## Setup
 
-- ### On a windows machine:
+- ### On a windows machine
 
 1. start a terminal session in the root directory of this repository's folder  
 2. in your terminal run `powershell -ExecutionPolicy ByPass -File "./setup/windows.ps1"`  
@@ -11,23 +11,23 @@
 
 - ### As a docker container
 
-    - #### Using pre-built image fron docker hub:  
+    - #### Using pre-built image fron docker hub  
 
         [See documentation on docker hub](https://hub.docker.com/repository/docker/doganm95/freenet_funk-rest-api-server)
 
-    - #### Building it locally (clone repository first):
+    - #### Building it locally (clone repository first)
 
-    1. `git clone https://github.com/DoganM95/Freenet_Funk-rest-api-server`    
+    1. `git clone https://github.com/DoganM95/Freenet_Funk-rest-api-server`  
     2. Open a terminal session in the cloned folder  
     3. Build the docker image using the cloned files:  
    `docker build -t doganm95/freenet_funk-rest-api-server -f ./docker/Dockerfile .`  
-    4. Run the image as a container:    
+    4. Run the image as a container:  
    `docker run -p <port>:5000 -e "FUNK_USERNAME=<your_username>" -e "FUNK_PASSWORD=<your_password>" doganm95/freenet_funk-rest-api-server`  
        >Replace `<your_username>` and `<your_password>` with your credentials and `<port>` with your desired port
 
 ## Requests
 
-### Get data from funk servers:
+### Get data from funk servers
 
 `GET`-request to the server with the following body as a full example:
 
@@ -42,7 +42,6 @@
     - `personalInfo`: responds with your personal information (email, name, bday, etc.)  
     - `orderedProducts`: responds with a list of all of your ordered products (sim-cards, plans, etc.)  
     - `currentPlan`: resonds with your currently running cell-tariff
-
 
 ### Order a specific cell-tariff (mobile plan)
 
