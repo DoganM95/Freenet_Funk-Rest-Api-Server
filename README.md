@@ -46,7 +46,7 @@
     -e "SSL_CERT=..."
     ```
 
-  - `SERVER_MODE` can be `prod` or `dev`. Flask warns not to use dev servers on prod. So for initial container setup & testing, try prod. If everything works, switch to `-e "SERVER_MODE=prod"`.
+  - `SERVER_MODE` can be `prod` or `dev`. Flask warns not to use dev servers on prod. So for initial container setup & testing, try dev. If everything works, switch to `-e "SERVER_MODE=prod"`.
   - Volume mounted can contain the cert.pem and privkey.pem as files, if the docker run args are not working (e.g. on a Synology NAS). In that case, just omit the `-e "SSL_PRIVATE_KEY=..." -e "SSL_CERT=..."` and use this `-v ...` instead.
 
 # Usage
