@@ -6,16 +6,15 @@ WORKDIR /usr/src/app
 # Bundle app source
 COPY . .
 
+# Install required python modules
 RUN python -m pip install funkapi
 RUN python -m pip install flask
 
-RUN chmod +x ./*
+# Add permissions
+RUN chmod --recursive +rwx ./*
 
-# rename credential file
-RUN mv ./configuration/credentials_template.py ./configuration/credentials.py
-
-# communication port
+# Define communication port
 EXPOSE 5000
 
 # Start the server
-CMD [ "./docker/entrypoint.sh" ]
+CMD [ "python","./server.py" ]
