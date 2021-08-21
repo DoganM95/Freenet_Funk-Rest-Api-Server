@@ -1,3 +1,5 @@
-.vscode
-__pycache__
-credentials.py
+# IDE
+/.vscode
+
+# Scripts
+**/docker-refresh.ps1

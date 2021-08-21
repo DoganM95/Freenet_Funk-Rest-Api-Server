@@ -1,9 +1,8 @@
-.git
-.gitignore
-.vscode
-LICENSE
-README.md
+/.git
+/.gitignore
+/.vscode
+/LICENSE
+/README.md
+/docker
 
-# personal data
-configuration/credentials.py
-configuration/__pycache__
+**/docker-refresh.ps1
