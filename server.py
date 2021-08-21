@@ -16,9 +16,6 @@ password_hashing_algorithm = (
     os.environ.get("PASSWORD_HASHING_ALGORITHM") if os.environ.get("PASSWORD_HASHING_ALGORITHM") != None else "sha512"
 )
 
-privateKey = os.environ.get("SSL_PRIVATE_KEY")
-cert = os.environ.get("SSL_CERT")
-
 
 # Preps
 
@@ -38,7 +35,7 @@ except:
 
 print("Logging in as:")
 print("Username: " + funk_username)
-print("Hashed Password: " + hashedEncodedFunkPassword)
+print(password_hashing_algorithm + " hashed password: " + hashedEncodedFunkPassword)
 
 app = flask.Flask(__name__)
 
@@ -51,14 +48,14 @@ def before_request_callback():
     try:
         api = FunkAPI(funk_username, funk_password)
     except:
-        return jsonify("Login failed. Check your credentials.")
+        return jsonify("Authentication (login) failed. Check your credentials."), 511
 
     authErrMsg = "Client authorization failed."
 
     if "Authorization" not in request.headers:
-        return jsonify(authErrMsg)
+        return jsonify(authErrMsg), 401
     if request.headers["Authorization"] != "Bearer " + hashedEncodedFunkPassword:
-        return jsonify(authErrMsg)
+        return jsonify(authErrMsg), 401
 
 
 @app.route("/", methods=["GET"])
@@ -75,9 +72,9 @@ def retrieve():
         if requestedAction == "currentPlan":
             response = api.getCurrentPlan()
 
-        return jsonify(response)
+        return jsonify(response), 200
     else:
-        return "Invalid action requested. Read the docs for further information."
+        return "Invalid action requested. Read the docs for further information.", 400
 
 
 @app.route("/", methods=["PUT"])
@@ -94,22 +91,43 @@ def order():
         if requestedAction == "undo":
             response = api.stopLatestPlan()
 
-        return jsonify(response)
+        return jsonify(response), 200
     else:
-        return "Invalid action requested. Read the docs for further information."
+        return "Invalid action requested. Read the docs for further information.", 400
 
 
 # Main
-if not os.path.isdir("./ssl"):
-    os.mkdir("./ssl")
 
-privateKeyFile = "./ssl/privkey.pem"
-open(privateKeyFile, "w+").write(privateKey)
+privateKeyEnvVar = os.environ.get("SSL_PRIVATE_KEY")
+certEnvVar = os.environ.get("SSL_CERT")
 
-certFile = "./ssl/cert.pem"
-open(certFile, "w+").write(cert)
+if privateKeyEnvVar != None and certEnvVar != None:
+    try:
+        if not os.path.isdir("./ssl"):
+            os.mkdir("./ssl")
 
-if privateKey != None and cert != None:
-    app.run(ssl_context=(certFile, privateKeyFile), host="0.0.0.0", port=5000, debug=False)
-else:
-    app.run(host="0.0.0.0", port=5000, debug=False)
+        privateKeyFilePath = "./ssl/privkey.pem"
+        open(privateKeyFilePath, "w+").write(privateKeyEnvVar)
+
+        certFilePath = "./ssl/cert.pem"
+        open(certFilePath, "w+").write(certEnvVar)
+
+        print("SSL via docker run -e args found.")
+        app.run(ssl_context=(certFilePath, privateKeyFilePath), host="0.0.0.0", port=5000, debug=False)
+    except:
+        print(
+            "SSL via docker run -e args skipped. Your system perhaps cripples the formatting (e.g. Synology NAS). Searching for volume mounted .pem files now."
+        )
+
+privateKeyVolumeFile = "./volume/ssl/privkey.pem"
+certVolumeFile = "./volume/ssl/cert.pem"
+
+if os.path.isfile(privateKeyVolumeFile) and os.path.isfile(certVolumeFile):
+    try:
+        print("Found .pem files in mounted volume.")
+        app.run(ssl_context=(certVolumeFile, privateKeyVolumeFile), host="0.0.0.0", port=5000, debug=False)
+    except:
+        print("Invalid .pem files in mounted volume.")
+
+print("Starting server without encryption.")
+app.run(host="0.0.0.0", port=5000, debug=False)
