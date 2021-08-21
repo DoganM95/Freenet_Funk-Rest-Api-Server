@@ -5,6 +5,7 @@ import flask
 from flask import request, jsonify
 import os
 import hashlib
+from waitress import serve
 
 
 # Environment vars
@@ -15,6 +16,8 @@ password_encoding = os.environ.get("PW_ENCODING") if os.environ.get("PW_ENCODING
 password_hashing_algorithm = (
     os.environ.get("PASSWORD_HASHING_ALGORITHM") if os.environ.get("PASSWORD_HASHING_ALGORITHM") != None else "sha512"
 )
+
+server_mode = "dev" if os.environ.get("SERVE_MODE") == None else os.environ.get("SERVE_MODE")
 
 
 # Preps
@@ -98,6 +101,20 @@ def order():
 
 # Main
 
+
+def serveApi(mode="dev", privKey=None, cert=None):
+    if privKey != None and cert != None:
+        if mode == "dev":
+            app.run(ssl_context=(cert, privKey), host="0.0.0.0", port=5000)
+        if mode == "prod":
+            serve(app, ssl_context=(cert, privKey), host="0.0.0.0", port=5000)
+    else:
+        if mode == "dev":
+            app.run(host="0.0.0.0", port=5000)
+        if mode == "prod":
+            serve(app, host="0.0.0.0", port=5000)
+
+
 privateKeyEnvVar = os.environ.get("SSL_PRIVATE_KEY")
 certEnvVar = os.environ.get("SSL_CERT")
 
@@ -113,7 +130,7 @@ if privateKeyEnvVar != None and certEnvVar != None:
         open(certFilePath, "w+").write(certEnvVar)
 
         print("SSL via docker run -e args found.")
-        app.run(ssl_context=(certFilePath, privateKeyFilePath), host="0.0.0.0", port=5000, debug=False)
+        serveApi(mode=server_mode, cert=certFilePath, privKey=privateKeyFilePath)
     except:
         print(
             "SSL via docker run -e args skipped. Your system perhaps cripples the formatting (e.g. Synology NAS). Searching for volume mounted .pem files now."
@@ -125,9 +142,9 @@ certVolumeFile = "./volume/ssl/cert.pem"
 if os.path.isfile(privateKeyVolumeFile) and os.path.isfile(certVolumeFile):
     try:
         print("Found .pem files in mounted volume.")
-        app.run(ssl_context=(certVolumeFile, privateKeyVolumeFile), host="0.0.0.0", port=5000, debug=False)
+        serveApi(mode=server_mode, cert=certVolumeFile, privKey=privateKeyVolumeFile)
     except:
         print("Invalid .pem files in mounted volume.")
 
 print("Starting server without encryption.")
-app.run(host="0.0.0.0", port=5000, debug=False)
+serveApi(mode=server_mode)

@@ -9,6 +9,7 @@ COPY . .
 # Install required python modules
 RUN python -m pip install funkapi
 RUN python -m pip install flask
+RUN python -m pip install waitress
 
 # Add permissions
 RUN chmod --recursive +rwx ./*
