@@ -100,8 +100,8 @@ def order():
 
 
 # Main
-
-os.mkdir("./ssl")
+if not os.path.isdir("./ssl"):
+    os.mkdir("./ssl")
 
 privateKeyFile = "./ssl/privkey.pem"
 open(privateKeyFile, "w+").write(privateKey)
