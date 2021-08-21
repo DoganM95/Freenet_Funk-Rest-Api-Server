@@ -18,7 +18,7 @@
 
    ```bash
     docker run \
-       -p <port>:5000 -e \
+       -p <port>:5000 \
        -e "FUNK_USERNAME=<your_username>" \
        -e "FUNK_PASSWORD=<your_password>" \
        -e "PASSWORD_HASHING_ALGORITHM=<your_preferred_algorithm" \
