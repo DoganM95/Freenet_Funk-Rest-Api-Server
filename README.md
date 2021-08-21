@@ -2,13 +2,13 @@
 
 [![Docker CI/CD](https://github.com/DoganM95/Freenet_Funk-rest-api-server/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/DoganM95/Freenet_Funk-rest-api-server/actions/workflows/main.yml)
 
-## Setup (Docker Container)
+# Setup (Docker Container)
 
-- ### Using pre-built image from docker hub
+- ## Using pre-built image from docker hub
 
     [See documentation on docker hub](https://hub.docker.com/repository/docker/doganm95/freenet_funk-rest-api-server)
 
-- ### Building it locally
+- ## Building it locally
 
     1. `git clone https://github.com/DoganM95/Freenet_Funk-rest-api-server`  
     2. Open a terminal session in the cloned folder  
@@ -24,14 +24,17 @@
        -e "PASSWORD_HASHING_ALGORITHM=<your_preferred_algorithm" \
        -e "SSL_PRIVATE_KEY=<your_server_ssel_private_key>" \
        -e "SSL_CERT=<your_server_ssl_cert>" \
+       -e "SERVER_MODE=dev" \
+       -v "<your_local_pem_certs_folder>:/usr/src/app/volume/ssl/"
        doganm95/freenet_funk-rest-api-server
     ```  
 
-    > Replace placeholders <> (including brackets) with your data && config.  
-    Supported pw hashing algorithms:  
-    `md4, sm3, blake2b, sha256, sha1, sha3_256, sha512, shake_128, ripemd160, sha3_384, whirlpool, md5-sha1, sha384, sha512_224, blake2s ,sha3_224, md5, shake_256, sha512_256, sha224, sha3_512`.  
-    SSL private key and cert are just the contents of the .pem files. Messing with the new lines is not recommended and can lead to unexpected behavior.  
-    Correct anonymized example:
+    **Notes**:  
+    Replace placeholders <> (including brackets) with your data and config.  
+  - `PASSWORD_HASHING_ALGORITHM` - supported:  
+    `md4, sm3, blake2b, sha256, sha1, sha3_256, sha512, shake_128, ripemd160, sha3_384, whirlpool, md5-sha1, sha384, sha512_224, blake2s ,sha3_224, md5, shake_256, sha512_256, sha224, sha3_512`.
+    Default if arg omitted: `sha512`
+  - `SSL_PRIVATE_KEY` and  `SSL_CERT` are just the contents of the .pem files. Messing with the new lines is not recommended and can lead to unexpected behavior. Correct anonymized example:
 
     ```shell
     "SSL_PRIVATE_KEY=-----BEGIN RSA PRIVATE KEY-----  
@@ -43,7 +46,16 @@
     -e "SSL_CERT=..."
     ```
 
-## Usage (Requests)
+  - `SERVER_MODE` can be `prod` or `dev`. Flask warns not to use dev servers on prod. So for initial container setup & testing, try prod. If everything works, switch to `-e "SERVER_MODE=prod"`.
+  - Volume mounted can contain the cert.pem and privkey.pem as files, if the docker run args are not working (e.g. on a Synology NAS). In that case, just omit the `-e "SSL_PRIVATE_KEY=..." -e "SSL_CERT=..."` and use this `-v ...` instead.
+
+# Usage
+
+## Authorization
+
+Every request needs an `Authorization` header, containing a Bearer Token. The Bearer Token is your Funk password, hashed using the algorithm you chose before (default: sha512). Running the container in dev mode logs the hashed pw, which can be copied.
+
+## Requests
 
 ### Get data from funk servers
 
