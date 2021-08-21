@@ -1,6 +1,7 @@
 ### Runs a flask server which sends commands to freenet Funk servers to get user data or order a specific cell phone tariff using [this freenet Funk API](https://github.com/lagmoellertim/freenet-funk-api)
 
 [![Docker CI/CD](https://github.com/DoganM95/Freenet_Funk-rest-api-server/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/DoganM95/Freenet_Funk-rest-api-server/actions/workflows/main.yml)
+
 ## Setup (Docker Container)
 
 - ### Using pre-built image from docker hub
