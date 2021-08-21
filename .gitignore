@@ -2,4 +2,4 @@
 /.vscode
 
 # Scripts
-**/docker-refresh.ps1
+**/docker-refresh.*
