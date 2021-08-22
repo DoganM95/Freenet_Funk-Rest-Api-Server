@@ -29,26 +29,6 @@
        doganm95/freenet_funk-rest-api-server
     ```  
 
-    **Notes**:  
-    Replace placeholders <> (including brackets) with your data and config.  
-  - `PASSWORD_HASHING_ALGORITHM` - supported:  
-    `md4, sm3, blake2b, sha256, sha1, sha3_256, sha512, shake_128, ripemd160, sha3_384, whirlpool, md5-sha1, sha384, sha512_224, blake2s ,sha3_224, md5, shake_256, sha512_256, sha224, sha3_512`.
-    Default if arg omitted: `sha512`
-  - `SSL_PRIVATE_KEY` and  `SSL_CERT` are just the contents of the .pem files. Messing with the new lines is not recommended and can lead to unexpected behavior. Correct anonymized example:
-
-    ```shell
-    "SSL_PRIVATE_KEY=-----BEGIN RSA PRIVATE KEY-----  
-    000000000000000000000000000000000000000000000000000000  
-    000000000000000000000000000000000000000000000000000000
-    ...
-    -----END RSA PRIVATE KEY-----
-    " \
-    -e "SSL_CERT=..."
-    ```
-
-  - `SERVER_MODE` can be `prod` or `dev`. Flask warns not to use dev servers on prod. So for initial container setup & testing, try dev. If everything works, switch to `-e "SERVER_MODE=prod"`.
-  - Volume mounted can contain the cert.pem and privkey.pem as files, if the docker run args are not working (e.g. on a Synology NAS). In that case, just omit the `-e "SSL_PRIVATE_KEY=..." -e "SSL_CERT=..."` and use this `-v ...` instead.
-
 # Usage
 
 ## Authorization
