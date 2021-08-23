@@ -14,7 +14,7 @@ funk_password = os.environ.get("FUNK_PASSWORD")
 
 password_encoding = os.environ.get("PW_ENCODING") if os.environ.get("PW_ENCODING") != None else "utf-8"
 password_hashing_algorithm = (
-    os.environ.get("PASSWORD_HASHING_ALGORITHM") if os.environ.get("PASSWORD_HASHING_ALGORITHM") != None else "sha512"
+    os.environ.get("PASSWORD_HASHING_ALGORITHM") if os.environ.get("PASSWORD_HASHING_ALGORITHM") != None else "sha3_512"
 )
 
 server_mode = "dev" if os.environ.get("SERVE_MODE") == None else os.environ.get("SERVE_MODE")
