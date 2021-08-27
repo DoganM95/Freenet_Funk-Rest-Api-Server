@@ -55,7 +55,7 @@ Every request needs an `Authorization` header, containing a Bearer Token. The Be
 
 ### Order a specific cell-tariff (mobile plan)
 
-`POST`-request to the server with the following body as a full example
+`PUT`-request to the server with the following body as a full example
 
 ```json
 {  
