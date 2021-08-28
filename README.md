@@ -21,8 +21,8 @@
        -p <port>:5000 \
        -e "FUNK_USERNAME=<your_username>" \
        -e "FUNK_PASSWORD=<your_password>" \
-       -e "PASSWORD_HASHING_ALGORITHM=<your_preferred_algorithm" \
-       -e "SSL_PRIVATE_KEY=<your_server_ssel_private_key>" \
+       -e "PASSWORD_HASHING_ALGORITHM=<your_preferred_algorithm>" \
+       -e "SSL_PRIVATE_KEY=<your_server_ssl_private_key>" \
        -e "SSL_CERT=<your_server_ssl_cert>" \
        -e "SERVER_MODE=dev" \
        -v "<your_local_pem_certs_folder>:/usr/src/app/volume/ssl/"
