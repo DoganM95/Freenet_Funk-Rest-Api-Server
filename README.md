@@ -33,7 +33,7 @@
 
 ## Authorization
 
-Every request needs an `Authorization` header, containing a Bearer Token. The Bearer Token is your Funk password, hashed using the algorithm you chose before (default: sha3_512). Running the container in dev mode logs the hashed pw, which can be copied.
+If ssl encryption is used (by providing a `privkey.pem` and a `cert.pem`, see docker hub), every request needs an `Authorization` header, containing a Bearer Token. The Bearer Token is your Funk password, hashed using the algorithm you chose before (default: `sha3_512`). Running the container in dev mode logs the hashed pw, which can be copied.
 
 ## Requests
 
