@@ -1,58 +1,32 @@
-# This is a basic workflow to help you get started with Actions
+name: Publish Docker image
 
-name: Docker CI/CD
-
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    paths-ignore:
+      - 'README.md'
 jobs:
-  # This workflow contains a single job called "build"
-  build_and_push:
-    # The type of runner that the job will run on
+  build-and-push-image:
+    name: Build and push docker image to ghcr.io
     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         python-version: [ '2.x', '3.x', 'pypy-2.x', 'pypy-3.x' ]
-#     name: Python ${{ matrix.python-version }}
     steps:
-      - uses: actions/checkout@v2
-      
-#       - name: Setup python
-#         uses: actions/setup-python@v2
-#         with:
-#           python-version: ${{ matrix.python-version }}
-#           architecture: x64
-          
-#       - run: python my_script.py
-
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      - name: Log in to the container registry
+        uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push docker images
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: doganm95/freenet_funk-rest-api-server:latest
+          tags: |
+            ghcr.io/doganm95/freenet_funk-rest-api-server:v1.${{ github.run_number }}
+            ghcr.io/doganm95/freenet_funk-rest-api-server:${{ github.sha }}
+            ghcr.io/doganm95/freenet_funk-rest-api-server:latest
+          labels: |
+            org.opencontainers.image.source=${{ github.repository_url }}
+            org.opencontainers.image.revision=${{ github.sha }}
